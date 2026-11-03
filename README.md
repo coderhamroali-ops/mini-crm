@@ -5,6 +5,18 @@
 
 **Стек:** React 19 + TypeScript + Vite, Supabase (PostgreSQL, Auth, RLS), react-router.
 
+## Демо
+
+**https://mini-crm-two-tau.vercel.app**
+
+| Роль | Email |
+|---|---|
+| Постановщик | `manager@mini-crm.test` |
+| Исполнитель | `ivanov@mini-crm.test` |
+| Исполнитель | `petrov@mini-crm.test` |
+
+Пароль для всех трёх тестовых пользователей передан вместе со ссылкой.
+
 ## Как запустить
 
 1. Создайте проект в [Supabase](https://supabase.com) (бесплатный тариф).
