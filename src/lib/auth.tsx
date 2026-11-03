@@ -23,10 +23,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => sub.subscription.unsubscribe()
   }, [])
 
+  // Профиль грузим только при смене пользователя, а не при каждом обновлении токена
+  // (иначе TOKEN_REFRESHED → новый объект session → повторный запрос → цикл).
+  const userId = session?.user.id ?? null
+
   useEffect(() => {
     let cancelled = false
     async function load() {
-      if (!session) {
+      if (!userId) {
         setProfile(null)
         setLoading(false)
         return
@@ -35,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data } = await supabase
         .from('profiles')
         .select('id, full_name, role')
-        .eq('id', session.user.id)
+        .eq('id', userId)
         .maybeSingle()
       if (!cancelled) {
         setProfile(data as Profile | null)
@@ -46,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true
     }
-  }, [session])
+  }, [userId])
 
   const signOut = async () => {
     await supabase.auth.signOut()
